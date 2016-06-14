@@ -141,3 +141,53 @@ This gives the following submission script:
 
 ./example_script.py -in input_file$SGE_TASK_ID.txt -out output_file$SGE_TASK_ID.txt
 ```
+
+## Parameters
+
+```python
+q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False, array='no_array')
+```
+
+cmd: list
+
+    List of commands (strings) to call in the submission job.
+
+out: str
+
+    Location and file prefix for output and error files.
+    
+mo: list
+
+    List of modules required to run jobs. Options: 'python' , 'java', 'gatk' ', 'R', module locations will need to be updated when not running on Sheffield cluster.
+    
+t: int
+
+    Time requested for job.
+
+rmem: int
+
+    Amount of real memmory requested.
+
+mem: int
+
+    Amount of virtual memmory requested.
+
+hold: list
+
+    List of job names to wait for untill starting job.
+    
+jid: str
+
+    ID for the job.
+    
+tr: int
+
+    Number of cores requested.
+
+evolgen: bool
+
+    If True will submit jobs to the Zeng Lab queue on the Sheffield cluster (requires access rights).
+
+array: list
+
+    List of two intergers specifying the start and end of the array
