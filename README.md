@@ -148,9 +148,9 @@ This gives the following submission script:
 q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False, array='no_array')
 ```
 
-cmd: list
+### cmd: list
 
-    List of commands (strings) to call in the submission job.
+  List of commands (strings) to call in the submission job.
 
 out: str
 
