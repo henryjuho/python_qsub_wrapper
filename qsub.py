@@ -65,7 +65,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
     shell_contents = '#!/bin/bash\n'
     if not mo == 'NONE':
         for m in mo:
-            shell_contents += '#!module load  ' + modules[m] + '\n'
+            shell_contents += 'module load  ' + modules[m] + '\n'
     if array != 'no_array':
         shell_contents += '\n#$-t ' + str(array[0]) + '-' + str(array[1]) + '\n'
     shell_contents += '\n#$-l arch=intel*\n' + run_time + memory + '\n'

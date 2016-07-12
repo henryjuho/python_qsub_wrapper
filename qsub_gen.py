@@ -75,7 +75,7 @@ available_modules = {'python': 'apps/python/2.7', 'java': 'apps/java/1.7', 'gatk
 # construct shell contents
 shell_contents = '#!/bin/bash\n'
 for m in mods:
-    shell_contents += '#!module load  ' + available_modules[m] + '\n'
+    shell_contents += 'module load  ' + available_modules[m] + '\n'
 if array != 'no_array':
     shell_contents += '\n#$-t 1-' + array + '\n'
 shell_contents += '\n#$-l arch=intel*\n' + run_time + memory + '\n'
