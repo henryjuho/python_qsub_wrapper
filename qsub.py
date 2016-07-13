@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 
 modules = {'python': 'apps/python/2.7', 'java': 'apps/java/1.7', 'gatk': 'apps/binapps/GATK', 'R': 'apps/R/3.2.1'}
@@ -60,6 +61,9 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
     else:
         output_name = out[0:file_pos] + jid
     outs = '\n#$-N ' + output_name[output_name.rfind('/')+1:] + '\n#$-o '+out+'.out\n#$-e '+out+'.error\n'
+    out_dir_path = out[:out.rfind('/') + 1]
+    if not os.path.isdir(out_dir_path):
+        os.makedirs(out_dir_path)
 
     # construct shell contents
     shell_contents = '#!/bin/bash\n'
