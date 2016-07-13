@@ -1,6 +1,5 @@
 # A python qsub wrapper
-Henry Juho Barton  
-Department of Animal and Plant Sciences, The University of Sheffield  
+Henry Juho Barton
 
 # Introduction
 
