@@ -66,7 +66,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
         os.makedirs(out_dir_path)
 
     # construct shell contents
-    shell_contents = '#!/bin/bash\n'
+    shell_contents = '#!/bin/bash\n\nsource ~/.bash_profile\n'
     if not mo == 'NONE':
         for m in mo:
             shell_contents += 'module load  ' + modules[m] + '\n'
