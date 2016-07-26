@@ -55,6 +55,8 @@ This gives:
 ```bash
 #!/bin/bash
 
+source ~/.bash_profile
+
 #$-l arch=intel*
 #$-l h_rt=8:00:00
 #$-l mem=6G
@@ -87,6 +89,8 @@ This yields:
 
 ```bash
 #!/bin/bash
+
+source ~/.bash_profile
 
 #$-l arch=intel*
 #$-l h_rt=78:00:00
@@ -125,6 +129,8 @@ This gives the following submission script:
 
 ```bash
 #!/bin/bash
+
+source ~/.bash_profile
 
 #$-t 1-20
 
