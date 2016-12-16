@@ -6,7 +6,7 @@ modules = {'python': 'apps/python/2.7', 'java': 'apps/java/1.7', 'gatk': 'apps/b
 
 
 def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
-             jid='DEFAULT', tr=1, evolgen=False, node=0, array='no_array'):
+             jid='DEFAULT', tr=1, evolgen=False, node='0', array='no_array'):
 
     """
     function that prints a bash script suitable for submission to the son of grid engine, using qsub
@@ -21,7 +21,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
     :param jid: str
     :param tr: int
     :param evolgen: bool
-    :param node: int
+    :param node: str
     :param array: list
     :return:
     """
@@ -30,8 +30,8 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
     if type(cmd) is not list:
         raise TypeError('cmd must be a list')
 
-    if type(cmd[0]) is not str:
-        raise TypeError('entries in cmd list must be str')
+    if type(cmd[0]) is not str or type(node) is not str:
+        raise TypeError('entries in cmd list and node must be str')
 
     if not mo == 'NONE':
         if type(mo) is not list:
@@ -45,7 +45,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
             raise TypeError('hold must be a list')
 
     if type(t) is not int or type(rmem) is not int or type(mem) is not int \
-            or type(tr) is not int or type(node) is not int:
+            or type(tr) is not int:
 
         raise TypeError('t, rmem, mem, tr and node must be integers')
 
@@ -69,7 +69,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
         os.makedirs(out_dir_path)
     node_str = ''
     if node != 0:
-        node_str = '#$-l h=node' + str(node) + '\n'
+        node_str = '#$-l h=node' + node + '\n'
 
     # construct shell contents
     shell_contents = '#!/bin/bash\n\nsource ~/.bash_profile\n'
@@ -96,7 +96,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
 
 
 def q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
-            node=0, array='no_array'):
+            node='0', array='no_array'):
 
     """
     function that prints a bash script suitable for submission to the son of grid engine, using qsub
@@ -111,7 +111,7 @@ def q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
     :param jid: str
     :param tr: int
     :param evolgen: bool
-    :param node: int
+    :param node: str
     :param array: list
     :return:
     """
@@ -123,7 +123,7 @@ def q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
 
 
 def q_write(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
-            node=0, array='no_array'):
+            node='0', array='no_array'):
 
     """
     function that writes a bash script suitable for submission to the son of grid engine, using qsub
@@ -156,7 +156,7 @@ def q_write(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
 
 
 def q_sub(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
-          node=0, array='no_array'):
+          node='0', array='no_array'):
 
     """
     function that writes and submits a bash script to the son of grid engine, using qsub
@@ -171,7 +171,7 @@ def q_sub(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', t
     :param jid: str
     :param tr: int
     :param evolgen: bool
-    :param node: int
+    :param node: str
     :param array: list
     :return:
     """
