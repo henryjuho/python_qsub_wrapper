@@ -68,7 +68,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
     if not os.path.isdir(out_dir_path):
         os.makedirs(out_dir_path)
     node_str = ''
-    if node != 0:
+    if node != '0':
         node_str = '#$-l h=node' + node + '\n'
 
     # construct shell contents
