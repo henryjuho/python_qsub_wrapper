@@ -52,6 +52,9 @@ def q_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         if type(hold) is not list:
             raise TypeError('hold must be a list')
 
+    if type(t) is int:
+        t = float(t)
+
     if type(t) is not float:
         raise TypeError('t must be a float')
 
