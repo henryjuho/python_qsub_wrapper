@@ -5,7 +5,15 @@ import os
 modules = {'python': 'apps/python/2.7', 'java': 'apps/java/1.7', 'gatk': 'apps/binapps/GATK', 'R': 'apps/R/3.2.1'}
 
 
-def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
+def float2qsubtime(time_float):
+    hours = str(int(time_float))
+    minutes = str(int((time_float - int(time_float)) * 60))
+    if len(minutes) == 1:
+        minutes = '0' + minutes
+    return hours + ':' + minutes + ':00'
+
+
+def q_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
              jid='DEFAULT', tr=1, evolgen=False, node='0', array='no_array'):
 
     """
@@ -14,7 +22,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
     :param cmd: list
     :param out: str
     :param mo: list
-    :param t: int
+    :param t: float
     :param rmem: int
     :param mem: int
     :param hold: list
@@ -44,19 +52,19 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
         if type(hold) is not list:
             raise TypeError('hold must be a list')
 
-    if type(t) is not int or type(rmem) is not int or type(mem) is not int \
+    if type(t) is not float:
+        raise TypeError('t must be a float')
+
+    if type(rmem) is not int or type(mem) is not int \
             or type(tr) is not int:
 
-        raise TypeError('t, rmem, mem, tr and node must be integers')
+        raise TypeError('rmem, mem, tr and node must be integers')
 
     if array != 'no_array' and type(array) is not list:
         raise TypeError('array must be a list')
 
-    if t > 168:
-        t = 168
-
     # set variables
-    run_time = '#$-l h_rt='+str(t)+':00:00\n'
+    run_time = '#$-l h_rt=' + float2qsubtime(t) + '\n'
     memory = '#$-l mem='+str(mem)+'G\n#$-l rmem='+str(rmem)+'G\n'
     file_pos = out.rfind('/')+1  # identifies position of file name in path string
     if jid == 'DEFAULT':
@@ -95,7 +103,7 @@ def q_script(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE',
     return shell_contents, output_name
 
 
-def q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
+def q_print(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
             node='0', array='no_array'):
 
     """
@@ -104,7 +112,7 @@ def q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
     :param cmd: list
     :param out: str
     :param mo: list
-    :param t: int
+    :param t: float
     :param rmem: int
     :param mem: int
     :param hold: list
@@ -122,7 +130,7 @@ def q_print(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
     print(script)
 
 
-def q_write(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
+def q_write(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
             node='0', array='no_array'):
 
     """
@@ -131,7 +139,7 @@ def q_write(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
     :param cmd: list
     :param out: str
     :param mo: list
-    :param t: int
+    :param t: float
     :param rmem: int
     :param mem: int
     :param hold: list
@@ -164,7 +172,7 @@ def q_sub(cmd, out, mo='NONE', t=8, rmem=2, mem=6, hold='NONE', jid='DEFAULT', t
     :param cmd: list
     :param out: str
     :param mo: list
-    :param t: int
+    :param t: float
     :param rmem: int
     :param mem: int
     :param hold: list
