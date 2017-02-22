@@ -3,7 +3,7 @@ Henry Juho Barton
 
 # Introduction
 
-This repository contains a small python module, ```qsub.py``` which provides functionally to write and submitted shell scripts to the 'Son of grid engine'. Also included is a standalone script ```qsub_gen.py``` which provides similar functionality from the command line.
+This repository contains a small python module, ```qsub.py``` which provides functionally to write and submitted shell scripts to the 'Son of grid engine'. This developmental branch also contains initial compatibility with the SLURM system as well. Also included is a standalone script ```qsub_gen.py``` which provides similar functionality from the command line.
 
 # qsub.py
 ## Installation 
@@ -40,7 +40,7 @@ The module use three main functions ```q_print```, ```q_write``` and ```q_sub```
 
 For ease of explanation examples are provided for ```q_print``` only.
 
-### Simple submission script
+### Simple submission script - SGE
 
 To print a simple submission script you need only specify a command and an output location and prefix for job error and output messages:
 
@@ -68,6 +68,35 @@ source ~/.bash_profile
 #$-e example/output/location/prefix.error
 
 example_command -a 1 -b 2 -c 3
+```
+
+### Simple submission script - SLURM
+
+To print a simple submission script you need only specify a command and an output location and prefix for job error and output messages:
+
+```python
+from qsub import *
+
+q_print(['example_command -a 1 -b 2 -c 3'], out='example/output/location/prefix', scheduler='SLURM')
+```
+
+This gives:
+
+```python
+#!/bin/bash
+
+source ~/.bash_profile
+
+#SBATCH -t 8:00:00
+#SBATCH --mem_per_cpu 2G
+
+
+#SBATCH -J prefix_job.sh
+#SBATCH -o example/output/location/prefix.out
+#SBATCH -e example/output/location/prefix.error
+
+example_command -a 1 -b 2 -c 3
+
 ```
 
 ### Complicated submission script
