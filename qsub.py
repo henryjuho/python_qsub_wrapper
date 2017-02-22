@@ -2,6 +2,7 @@ import subprocess
 import os
 
 
+# todo consider constructing this from module lists
 modules = {'python': 'apps/python/2.7', 'java': 'apps/java/1.7', 'gatk': 'apps/binapps/GATK', 'R': 'apps/R/3.2.1'}
 
 
@@ -15,6 +16,8 @@ def float2qsubtime(time_float):
 
 def q_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
              jid='DEFAULT', tr=1, evolgen=False, node='0', array='no_array'):
+
+    # todo modify this for sbatch or write sbatch function?
 
     """
     function that prints a bash script suitable for submission to the son of grid engine, using qsub
