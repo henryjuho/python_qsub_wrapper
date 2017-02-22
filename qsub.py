@@ -18,6 +18,9 @@ def q_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
              jid='DEFAULT', tr=1, evolgen=False, node='0', array='no_array'):
 
     # todo modify this for sbatch or write sbatch function?
+    
+    # Jack: I was going to ask you this question, but I think there are merits to both options. I'll
+    #       first write a seperate function outlining the variables and you can see what you think.
 
     """
     function that prints a bash script suitable for submission to the son of grid engine, using qsub
