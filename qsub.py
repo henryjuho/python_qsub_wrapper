@@ -178,6 +178,19 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
     if node != '0':
         node_str = '#SBATCH -w ' + node + '\n'
 
+    # determine queues and constraints
+    partitions = []
+    if tr == 16:
+        partitions.append('serial')
+    else:
+        partitions.append('parallel')
+    if t > 3.0*24.0:
+        partitions.append('longrun')
+    if rmem > 256:
+        partitions.append('hugemem')
+
+    part_str = '#SBATCH -p ' + ','.join(partitions) + '\n'
+
     # construct shell contents
     shell_contents = '#!/bin/bash\n\nsource ~/.bash_profile\n\n'
     if not mo == 'NONE':
@@ -187,7 +200,8 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         shell_contents += '\n#SBATCH -a ' + str(array[0]) + '-' + str(array[1]) + '\n'
     shell_contents += run_time + memory + '\n'
     if tr != 1:
-        shell_contents += '#SBATCH -n ' + str(tr) + '\n'
+        shell_contents += '#SBATCH -c ' + str(tr) + '\n'
+    shell_contents += part_str
     shell_contents += node_str
     shell_contents += outs + '\n'
     # if hold is not 'NONE':
