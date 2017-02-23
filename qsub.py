@@ -138,9 +138,6 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
     if not mo == 'NONE':
         if type(mo) is not list:
             raise TypeError('mo must be a list')
-        for m in mo:
-            if m not in modules.keys():
-                raise KeyError(m + ' not a valid module')
 
     if not hold == 'NONE':
         if type(hold) is not list:
