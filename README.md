@@ -88,8 +88,9 @@ This gives:
 source ~/.bash_profile
 
 #SBATCH -t 8:00:00
-#SBATCH --mem_per_cpu 2G
+#SBATCH --mem_per_cpu=2G
 
+#SBATCH -p serial
 
 #SBATCH -J prefix_job.sh
 #SBATCH -o example/output/location/prefix.out
