@@ -162,7 +162,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
 
     # set variables
     run_time = '#SBATCH -t ' + float2qsubtime(t) + '\n'
-    memory = '#SBATCH --mem_per_cpu ' + str(rmem) + 'G\n'
+    memory = '#SBATCH --mem_per_cpu=' + str(rmem) + 'G\n'
     file_pos = out.rfind('/')+1  # identifies position of file name in path string
     if jid == 'DEFAULT':
         output_name = out[0:file_pos] + out[file_pos:] + '_job.sh'
