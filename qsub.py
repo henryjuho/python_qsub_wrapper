@@ -180,7 +180,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
 
     # determine queues and constraints
     partitions = []
-    if tr == 16:
+    if tr <= 16:
         partitions.append('serial')
     else:
         partitions.append('parallel')
