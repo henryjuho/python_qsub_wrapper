@@ -95,7 +95,7 @@ def q_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
     if evolgen is True:
         shell_contents += '#$-P evolgen\n#$-q evolgen.q\n'
     shell_contents += node_str
-    shell_contents += outs + '\n#$-V\n'
+    shell_contents += outs + '\n#$-V\n\n'
     if hold is not 'NONE':
         hold = ','.join(hold)
         shell_contents += '#$-hold_jid ' + hold + '\n\n'
