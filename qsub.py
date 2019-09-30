@@ -158,8 +158,8 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         raise TypeError('array must be a list')
 
     # set variables
-    run_time = '#SBATCH -t ' + float2qsubtime(t) + '\n'
-    memory = '#SBATCH --mem_per_cpu=' + str(rmem) + 'G\n'
+    run_time = '#SBATCH -t=' + float2qsubtime(t) + '\n'
+    memory = '#SBATCH --mem-per-cpu=' + str(rmem) + 'G\n'
     file_pos = out.rfind('/')+1  # identifies position of file name in path string
     if jid == 'DEFAULT':
         output_name = out[0:file_pos] + out[file_pos:] + '_job.sh'
@@ -177,14 +177,16 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
 
     # determine queues and constraints
     partitions = []
-    if tr <= 16:
-        partitions.append('serial')
-    else:
-        partitions.append('parallel')
-    if t > 3.0*24.0:
+    if tr <= 40 and t <= 3*24:
+        partitions.append('small')
+    elif tr <= 4000 and t <= 3*24:
+        partitions.append('large')
+    elif tr <= 40 and t <= 14*24:
         partitions.append('longrun')
-    if rmem > 256:
+    elif tr <= 160 and t <= 3*24 and rmem > 382:
         partitions.append('hugemem')
+    else:
+        partitions.append('hugemem_longrun')
 
     part_str = '#SBATCH -p ' + ','.join(partitions) + '\n'
 
@@ -205,7 +207,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
     #     hold = ','.join(hold)
     #     shell_contents += '#$-hold_jid ' + hold + '\n\n'
     for x in cmd:
-        shell_contents += x + '\n'
+        shell_contents += 'srun ' + x + '\n'
 
     # output shell script string
     return shell_contents, output_name
