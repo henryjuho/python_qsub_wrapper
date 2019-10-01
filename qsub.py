@@ -165,7 +165,8 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         output_name = out[0:file_pos] + out[file_pos:] + '_job.sh'
     else:
         output_name = out[0:file_pos] + jid
-    outs = ('\n#SBATCH -J ' + output_name[output_name.rfind('/')+1:] +
+    outs = ('\n#SBATCH --export\n'
+            '\n#SBATCH -J ' + output_name[output_name.rfind('/')+1:] +
             '\n#SBATCH -o '+out+'.out'
             '\n#SBATCH -e '+out+'.error\n')
     out_dir_path = out[:out.rfind('/') + 1]
