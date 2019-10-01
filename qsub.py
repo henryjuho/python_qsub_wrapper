@@ -158,18 +158,17 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         raise TypeError('array must be a list')
 
     # set variables
-    run_time = '#SBATCH -t=' + float2qsubtime(t) + '\n'
+    run_time = '#SBATCH --time=' + float2qsubtime(t) + '\n'
     memory = '#SBATCH --mem-per-cpu=' + str(rmem) + 'G\n'
     file_pos = out.rfind('/')+1  # identifies position of file name in path string
     if jid == 'DEFAULT':
         output_name = out[0:file_pos] + out[file_pos:] + '_job.sh'
     else:
         output_name = out[0:file_pos] + jid
-    outs = ('\n#SBATCH --export'
-            '\n#SBATCH --account=tuyida\n'
-            '\n#SBATCH -J ' + output_name[output_name.rfind('/')+1:] +
-            '\n#SBATCH -o '+out+'.out'
-            '\n#SBATCH -e '+out+'.error\n')
+    outs = ('\n#SBATCH --account=tuyida\n'
+            '\n#SBATCH --job-name=' + output_name[output_name.rfind('/')+1:] +
+            '\n#SBATCH --output='+out+'.out'
+            '\n#SBATCH --error='+out+'.error\n')
     out_dir_path = out[:out.rfind('/') + 1]
     if not os.path.isdir(out_dir_path):
         os.makedirs(out_dir_path)
@@ -190,10 +189,10 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
     else:
         partitions.append('hugemem_longrun')
 
-    part_str = '#SBATCH -p ' + ','.join(partitions) + '\n'
+    part_str = '#SBATCH --partition=' + ','.join(partitions) + '\n'
 
     # construct shell contents
-    shell_contents = '#!/bin/bash\n\nsource ~/.bash_profile\n\n'
+    shell_contents = '#!/bin/bash\n\n'
     if not mo == 'NONE':
         for m in mo:
             shell_contents += 'module load  ' + m + '\n'
@@ -201,7 +200,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         shell_contents += '\n#SBATCH -a ' + str(array[0]) + '-' + str(array[1]) + '\n'
     shell_contents += run_time + memory + '\n'
     if tr != 1:
-        shell_contents += '#SBATCH -c ' + str(tr) + '\n'
+        shell_contents += '#SBATCH --c ' + str(tr) + '\n'
     shell_contents += part_str
     shell_contents += node_str
     shell_contents += outs + '\n'
@@ -209,7 +208,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
     #     hold = ','.join(hold)
     #     shell_contents += '#$-hold_jid ' + hold + '\n\n'
     for x in cmd:
-        shell_contents += 'srun ' + x + '\n'
+        shell_contents += x + '\n'
 
     # output shell script string
     return shell_contents, output_name
