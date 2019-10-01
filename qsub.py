@@ -200,7 +200,11 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         shell_contents += '\n#SBATCH -a ' + str(array[0]) + '-' + str(array[1]) + '\n'
     shell_contents += run_time + memory + '\n'
     if tr != 1:
-        shell_contents += '#SBATCH --c ' + str(tr) + '\n'
+        tr_str = ('#SBATCH -N {tr}\n'
+                  '#SBATCH --cpus-per-task=1\n'
+                  '#SBATCH --ntasks={tr}\n').format(tr=tr)
+        shell_contents += tr_str
+
     shell_contents += part_str
     shell_contents += node_str
     shell_contents += outs + '\n'
