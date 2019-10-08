@@ -197,7 +197,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         for m in mo:
             shell_contents += 'module load  ' + m + '\n'
     if array != 'no_array':
-        shell_contents += '\n#SBATCH -a ' + str(array[0]) + '-' + str(array[1]) + '\n'
+        shell_contents += '#SBATCH --array=' + str(array[0]) + '-' + str(array[1]) + '\n'
     shell_contents += run_time + memory + '\n'
     if tr != 1:
         tr_str = ('#SBATCH -N {tr}\n'
