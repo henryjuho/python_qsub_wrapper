@@ -165,7 +165,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         output_name = out[0:file_pos] + out[file_pos:] + '_job.sh'
     else:
         output_name = out[0:file_pos] + jid
-    outs = ('\n#SBATCH --account=tuyida\n'
+    outs = ('\n#SBATCH --account=project_2002047\n'
             '\n#SBATCH --job-name=' + output_name[output_name.rfind('/')+1:] +
             '\n#SBATCH --output='+out+'.out'
             '\n#SBATCH --error='+out+'.error\n')
