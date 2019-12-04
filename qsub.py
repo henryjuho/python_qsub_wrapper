@@ -178,7 +178,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
 
     # determine queues and constraints
     partitions = []
-    if tr == 1 and t <= 3*24:
+    if tr <= 40 and t <= 3*24:
         partitions.append('small')
     elif tr <= 4000 and t <= 3*24:
         partitions.append('large')
@@ -200,9 +200,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         shell_contents += '#SBATCH --array=' + str(array[0]) + '-' + str(array[1]) + '\n'
     shell_contents += run_time + memory + '\n'
     if tr != 1:
-        tr_str = ('#SBATCH -N {tr}\n'
-                  '#SBATCH --cpus-per-task=1\n'
-                  '#SBATCH --ntasks={tr}\n').format(tr=tr)
+        tr_str = '#SBATCH --ntasks={tr}\n'.format(tr=tr)
         shell_contents += tr_str
 
     shell_contents += part_str
