@@ -177,10 +177,10 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
 
     # determine queues and constraints
     partitions = []
-    if tr <= 16:
-        partitions.append('serial')
-    else:
-        partitions.append('parallel')
+    #if tr <= 16:
+    #    partitions.append('serial')
+    #else:
+    #    partitions.append('parallel')
     if t > 3.0*24.0:
         partitions.append('longrun')
     if rmem > 256:
