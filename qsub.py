@@ -108,7 +108,7 @@ def q_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
 
 
 def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
-             jid='DEFAULT', tr=1, evolgen=False, node='0', array='no_array'):
+             jid='DEFAULT', tr=1, evolgen=False, node='0', array='no_array', account='project_2002047'):
 
     """
     function that returns the contents of a bash script suitable for submission to slurm, using sbatch
@@ -125,6 +125,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
     :param evolgen: bool
     :param node: str
     :param array: list
+    :param account: str
     :return:
     """
 
@@ -165,7 +166,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
         output_name = out[0:file_pos] + out[file_pos:] + '_job.sh'
     else:
         output_name = out[0:file_pos] + jid
-    outs = ('\n#SBATCH --account=project_2002047\n'
+    outs = ('\n#SBATCH --account=' + account + '\n'
             '\n#SBATCH --job-name=' + output_name[output_name.rfind('/')+1:] +
             '\n#SBATCH --output='+out+'.out'
             '\n#SBATCH --error='+out+'.error\n')
@@ -217,7 +218,7 @@ def s_script(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE',
 
 
 def q_print(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
-            node='0', array='no_array', scheduler='SGE'):
+            node='0', array='no_array', scheduler='SGE', account='project_2002047'):
 
     """
     function that prints a bash script suitable for submission to the son of grid engine or slurm, using qsub or sbatch
@@ -235,6 +236,7 @@ def q_print(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT
     :param node: str
     :param array: list
     :param scheduler: str
+    :param account: str
     :return:
     """
 
@@ -247,12 +249,12 @@ def q_print(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT
                           jid=jid, tr=tr, evolgen=evolgen, node=node, array=array)[0]
     else:
         script = s_script(cmd, out, mo=mo, t=t, rmem=rmem, mem=mem, hold=hold,
-                          jid=jid, tr=tr, evolgen=evolgen, node=node, array=array)[0]
+                          jid=jid, tr=tr, evolgen=evolgen, node=node, array=array, account=account)[0]
     print(script)
 
 
 def q_write(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
-            node='0', array='no_array', scheduler='SGE'):
+            node='0', array='no_array', scheduler='SGE', account='project_2002047'):
 
     """
     function that prints a bash script suitable for submission to the son of grid engine or slurm, using qsub or sbatch
@@ -270,6 +272,7 @@ def q_write(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT
     :param node: str
     :param array: list
     :param scheduler: str
+    :param account: str
     :return:
     """
 
@@ -282,7 +285,7 @@ def q_write(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT
                                jid=jid, tr=tr, evolgen=evolgen, node=node, array=array)
     else:
         script_data = s_script(cmd, out, mo=mo, t=t, rmem=rmem, mem=mem, hold=hold,
-                               jid=jid, tr=tr, evolgen=evolgen, node=node, array=array)
+                               jid=jid, tr=tr, evolgen=evolgen, node=node, array=array, account=account)
 
     script = script_data[0]
     output_name = script_data[1]
@@ -294,7 +297,7 @@ def q_write(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT
 
 
 def q_sub(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT', tr=1, evolgen=False,
-          node='0', array='no_array', scheduler='SGE'):
+          node='0', array='no_array', scheduler='SGE', account='project_2002047'):
 
     """
     function that prints a bash script suitable for submission to the son of grid engine or slurm, using qsub or sbatch
@@ -312,6 +315,7 @@ def q_sub(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
     :param node: str
     :param array: list
     :param scheduler: str
+    :param account: str
     :return:
     """
 
@@ -325,7 +329,7 @@ def q_sub(cmd, out, mo='NONE', t=8.0, rmem=2, mem=6, hold='NONE', jid='DEFAULT',
         sub_cmd = 'qsub '
     else:
         script_data = s_script(cmd, out, mo=mo, t=t, rmem=rmem, mem=mem, hold=hold,
-                               jid=jid, tr=tr, evolgen=evolgen, node=node, array=array)
+                               jid=jid, tr=tr, evolgen=evolgen, node=node, array=array, account=account)
         sub_cmd = 'sbatch '
 
     script = script_data[0]
